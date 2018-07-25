@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
   delete 'users/delete_user'
+  delete 'khaches/delete_khach'
+
   resources :khaches
   resources :users
   get 'duy/index'

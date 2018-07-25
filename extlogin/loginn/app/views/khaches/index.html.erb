@@ -144,14 +144,11 @@
           text:'Xóa',
             tooltip:'Xóa', 
             handler: function(){
-                  var s = grid.getSelectionModel().getSelections();
-            // And then you can iterate over the selected items, e.g.: 
+             var s = grid.getSelectionModel().getSelections();
             selected = [];
             Ext.each(s, function (item) {
               selected.push(item.get('id'));
             });
-          //console.log(fav_ids);
-          Ext.Msg.alert('thông báo',selected);
           Ext.Msg.show({
             title: 'Thông báo',
             msg:"Danh sách id: "+selected,
@@ -162,27 +159,27 @@
             },
           fn: function(bt){
             if(bt == 'yes') {
-              //Ext.Msg.alert('OK','OK');
-              //debugger
+              for (let i=0; i<selected.length; i++){
               Ext.Ajax.request({
-                url: '<%= users_path %>',
+                url: '<%=khaches_delete_khach_path%>',
                 method: 'DELETE',
                 params: {
-                  id: 7,
+                  khach_id: selected[i],
                 },
                  success: function(response) {
                     console.log("The request was successfull");
+                    store.load();
                   }, 
                  failure: function(response) {
                       console.log("Request is failed");
                   }
               });
+              }
             }
             else
               return;
            }
           });
-
 
             }
         },{
@@ -286,41 +283,54 @@ Ext.onReady(function(){
     Ext.form.Field.prototype.msgTarget = 'side';
 
     var aaaaa = new Ext.form.FormPanel({
-        url: '<%= khaches_path %>',
         monitorValid: true,
         labelWidth: 75,
         frame: true,
-        title: 'New',
+        title: 'Tạo khách',
         width: 250,
         defaultType: 'textfield',
-        defaults: { allowBlank: false },
 
         items: [
-            { fieldLabel: 'ten', name: 'ten' },
-                        { fieldLabel: 'tuoi', name: 'tuoi' },
-            { fieldLabel: 'diachi', name: 'diachi' },
+          { id: 'ten', fieldLabel: 'Tên', name: 'ten' },
+          { id: 'tuoi', xtype: 'numberfield', fieldLabel: 'Tuổi', name: 'tuoi' },
+          { id: 'diachi', fieldLabel: 'Địa chỉ', name: 'diachi' },
         ],
+
         buttons: [
             {
-                text: 'Create',
-                formBind: true,
-                handler: function (btn, evt) { aaaaa.getForm().submit(); }
+                text: 'Tạo mới',
+                handler: function () { 
+                  Ext.Ajax.request({
+                url: '<%= khaches_path %>',
+                method: 'POST',
+                jsonData: {
+                  ten: Ext.getCmp('ten').getValue(),
+                  tuoi: Ext.getCmp('tuoi').getValue(),
+                  diachi: Ext.getCmp('diachi').getValue(),
+                },
+                 success: function(response) {
+                    console.log("The request was successfull");
+                    store.load();
+                  }, 
+                 failure: function(response) {
+                      console.log("Request is failed");
+                  }
+              });
+                 }
             }
         ]
     });
-
-    aaaaa.render(document.body);
-    aaaaa.el.center();
+    aaaaa.render('taomoi');
+    
 });
+
+
 
   </script>
 
 <p id="notice"><%= notice %></p>
 
 
-<div id="grid-example"></div>
-<div id="them"></div>
-<%= render 'form', khach: @khach %>
 <br>
 <div id="hello-win" class="x-hidden">
     <div class="x-window-header">Dữ liệu đã thêm</div>
@@ -331,3 +341,5 @@ Ext.onReady(function(){
       </div>
     </div>
   </div>
+  <div id="grid-example"></div>
+  <div id="taomoi"></div>

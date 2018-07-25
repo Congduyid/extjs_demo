@@ -1,5 +1,6 @@
 class KhachesController < ApplicationController
   before_action :set_khach, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /khaches
   # GET /khaches.json
@@ -11,6 +12,15 @@ class KhachesController < ApplicationController
   # GET /khaches/1
   # GET /khaches/1.json
   def show
+  end
+
+  def delete_khach
+    @khach = Khach.find(params[:khach_id])
+    @khach.destroy
+    # @success = "ok"
+    respond_to do |format|
+      format.json { head :no_content }
+    end
   end
 
   # GET /khaches/new

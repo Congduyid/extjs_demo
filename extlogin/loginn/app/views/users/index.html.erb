@@ -304,11 +304,57 @@
         }
         win.show(this);
       });
-
-    Ext.create('Ext.form.TextField', {
     });
 
-    });
+
+
+Ext.onReady(function(){
+  Ext.QuickTips.init();
+ 
+     // turn on validation errors beside the field globally
+     Ext.form.Field.prototype.msgTarget = 'side';
+ 
+     var aaaaa = new Ext.form.FormPanel({
+         monitorValid: true,
+         labelWidth: 75,
+         frame: true,
+         title: 'Tạo khách',
+         width: 250,
+         defaultType: 'textfield',
+ 
+         items: [
+           { id: 'name', fieldLabel: 'Tên', name: 'name' },
+           { id: 'password',inputType: 'password', fieldLabel: 'Mật khẩu', name: 'password' },
+           { id: 'password_confirmation',inputType: 'password', fieldLabel: 'Xác nhận mật khẩu', name: 'password_confirmation' },
+         ],
+ 
+         buttons: [
+             {
+                 text: 'Tạo mới',
+                 handler: function () { 
+                   Ext.Ajax.request({
+                 url: '<%= users_path %>',
+                 method: 'POST',
+                 jsonData: {
+                  name: Ext.getCmp('name').getValue(),
+                  password: Ext.getCmp('password').getValue(),
+                  password_confirmation: Ext.getCmp('password_confirmation').getValue(),
+                 },
+                  success: function(response) {
+                     console.log("The request was successfull");
+                     store.load();
+                   }, 
+                  failure: function(response) {
+                       console.log("Request is failed");
+                   }
+               });
+                  }
+             }
+         ]
+     });
+     aaaaa.render('taomoi');
+     
+ });
 
   </script>
 
@@ -316,7 +362,7 @@
 
 
 <div id="grid-example"></div>
-<div id="them"></div>
+<div id="taomoi"></div>
 <br>
 <div id="hello-win" class="x-hidden">
     <div class="x-window-header">Danh sách người dùng</div>
@@ -327,3 +373,5 @@
       </div>
     </div>
   </div>
+
+  
