@@ -1,0 +1,39 @@
+<%= form_with(model: khach, local: true) do |form| %>
+  <% if khach.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(khach.errors.count, "error") %> prohibited this khach from being saved:</h2>
+
+      <ul>
+      <% khach.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ten %>
+    <%= form.text_field :ten %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tuoi %>
+    <%= form.number_field :tuoi %>
+  </div>
+
+  <div class="field">
+    <%= form.label :diachi %>
+    <%= form.text_field :diachi %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Lưu'%>
+  </div>
+<% end %>
+
+<script>
+    Ext.onReady(function () {
+
+ 
+)};
+</script>

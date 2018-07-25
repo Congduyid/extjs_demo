@@ -1,0 +1,56 @@
+
+  <script>
+    Ext.onReady(function () {
+      new Ext.Toolbar({
+        renderTo: Ext.getBody(),
+        items: [
+            '->'
+        ,{
+          xtype: 'tbbutton',
+          text: 'Đăng nhập',
+          handler: function () {
+            var w = new Ext.Window({
+              layout: 'form',
+              height: '100%',
+              title:'Đăng nhập',
+              alignButton: 'right',
+              items: [
+                { id: 'tendangnhap',xtype: 'textfield', fieldLabel: 'Tên đăng nhập:' },
+                { id: 'matkhau',xtype: 'textfield', inputType: 'password' ,fieldLabel: 'Mật khẩu:' },
+                {
+                  xtype: 'button',
+                  scale: 'large',
+                  text: 'Đăng nhập',
+                  handler: function(){
+                      Ext.Msg.alert('Tiêu đề','<br>Tên đăng nhập: '+ Ext.getCmp('tendangnhap').getValue() + '<br><br>Mật khẩu:'+Ext.getCmp('matkhau').getValue())
+                  }
+                }
+              ]
+            });
+            w.show();
+          }
+        }]
+      });
+    });
+
+  </script>
+
+</head>
+
+<body>
+  <div id="hello-win" class="x-hidden">
+    <div class="x-window-header">Cua so chuc nang</div>
+    <div id="hello-tabs">
+      <!-- tab 1 -->
+      <div id="dulieutab1" class="x-tab" title="Grid 1">
+      </div>
+      <!-- tab 2 -->
+      <div id="dulieutab2" class="x-tab" title="Grid 2">
+      </div>
+    </div>
+  </div>
+  <div id="cuaso"></div>
+  <div id="buttonId"></div>
+</body>
+
+</html>

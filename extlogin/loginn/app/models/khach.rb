@@ -1,0 +1,2 @@
+class Khach < ApplicationRecord
+end

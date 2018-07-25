@@ -1,0 +1,5 @@
+<h1>Đăng nhập thành công</h1>
+Hiện tại có <%= pluralize(@users, "user") %>.
+<% if session[:user_id] %>
+<%= button_to 'Đăng xuất', logout_path, method: :delete %>
+<% end %>

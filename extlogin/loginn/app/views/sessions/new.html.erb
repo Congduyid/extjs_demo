@@ -1,0 +1,22 @@
+<div class="depot_form">
+<% if flash[:alert] %>
+<p id="notice"><%= flash[:alert] %></p>
+<% end %>
+<%= form_tag do %>
+<fieldset>
+
+<div>
+<%= label_tag :name, 'Tên đăng nhập:' %>
+<%= text_field_tag :name, params[:name] %>
+</div>
+<div>
+<%= label_tag :password, 'Mật khẩu:' %>
+<%= password_field_tag :password, params[:password] %>
+</div>
+<div><br><br>
+<%= submit_tag "Đăng nhập" %>
+</div>
+</fieldset>
+<% end %>
+</div>
+
