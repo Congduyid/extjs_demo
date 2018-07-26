@@ -73,6 +73,7 @@
         });
 
         store.load();
+        let edit_id;
          //debugger;
       var sm = new Ext.grid.CheckboxSelectionModel()
         var grid = new Ext.grid.GridPanel({
@@ -117,7 +118,7 @@
             stateId: 'grid',
             // Phaan trang
               bbar: new Ext.PagingToolbar({
-            pageSize: 25,
+            pageSize: 5,
             store: store,
             displayInfo: true,
             displayMsg: 'Trang {0}',
@@ -127,7 +128,7 @@
                 enableToggle:true,
                 cls: 'x-btn-text-icon details',
                 toggleHandler: function(btn, pressed){
-                    store.load();
+                        store.load({params:{start:0, limit:25}});
                 }
             }]
         }),
@@ -141,6 +142,23 @@
                 //store.load({params:{start:0, limit:25}});
             }
         },{
+          text:'Sửa',
+            tooltip:'Sửa', 
+             handler: function () { 
+              var s = grid.getSelectionModel().getSelected();
+              edit_id = s.get('id');
+              edit_ten = s.get('ten');
+              edit_tuoi = s.get('tuoi');
+              edit_diachi = s.get('diachi');
+              
+              var name = Ext.getCmp('ten').setValue(edit_ten);
+              var age = Ext.getCmp('tuoi').setValue(edit_tuoi);
+              var add = Ext.getCmp('diachi').setValue(edit_diachi);
+
+              
+
+            }
+        },{
           text:'Xóa',
             tooltip:'Xóa', 
             handler: function(){
@@ -151,7 +169,7 @@
             });
           Ext.Msg.show({
             title: 'Thông báo',
-            msg:"Danh sách id: "+selected,
+            msg:"Danh sách id cần xóa: "+selected,
             height:40,
             buttons:{
               yes: true,
@@ -182,17 +200,26 @@
           });
 
             }
-        },{
-          text:'test',
-            tooltip:'Xóa', 
-            handler: function(){
-              Ext.Msg.alert('aaa',grid.getSelectionModel().getSelection());
-            }
         },'->',{text:'Tìm kiếm:'},
         {
           id: 'tukhoa',
           xtype: 'textfield',
           emptyText : 'Từ khoá',
+          listeners: {
+          specialkey: function(field, e){
+            if (e.getKey() == e.ENTER) {
+                store.filter([
+                {
+                  property: 'name',
+                  value: Ext.getCmp('tukhoa').getValue(),
+                  // exactMatch: true,
+                  // caseSensitive: true
+                }
+              ]).load(); 
+              
+            }
+          }
+        }
         },{
             xtype: 'combo',
             width: 80,
@@ -226,8 +253,6 @@
         // render the grid to the specified div in the page
         //grid.render('grid-example');
         grid.render('dulieutab1');
-    });
-
     
 
 
@@ -237,7 +262,7 @@
      * licensing@sencha.com
      * http://www.sencha.com/license
      */
-    Ext.onReady(function () {
+
       var win;
       //id cái nút Tab ne
       var button = Ext.get('ext-gen6');
@@ -274,9 +299,8 @@
         }
         win.show(this);
       });
-    });
 
-Ext.onReady(function(){
+
  Ext.QuickTips.init();
 
     // turn on validation errors beside the field globally
@@ -297,6 +321,33 @@ Ext.onReady(function(){
         ],
 
         buttons: [
+            {
+              id: 'capnhat',
+              
+                text: 'Cập nhật',
+                handler: function () { 
+                  if (edit_id==null){
+                   Ext.Msg.alert('Thông báo','Chưa chọn khách cần sửa');
+                  }
+                  Ext.Ajax.request({
+                url: '<%= khaches_cap_nhat_path %>',
+                method: 'PATCH',
+                jsonData: {
+                  khach_id: edit_id,
+                  ten: Ext.getCmp('ten').getValue(),
+                  tuoi: Ext.getCmp('tuoi').getValue(),
+                  diachi: Ext.getCmp('diachi').getValue(),
+                },
+                 success: function(response) {
+                    console.log("The request was successfull");
+                    store.load();
+                  }, 
+                 failure: function(response) {
+                      console.log("Request is failed");
+                  }
+              });
+                 }
+            },
             {
                 text: 'Tạo mới',
                 handler: function () { 
@@ -321,11 +372,7 @@ Ext.onReady(function(){
         ]
     });
     aaaaa.render('taomoi');
-    
 });
-
-
-
   </script>
 
 <p id="notice"><%= notice %></p>

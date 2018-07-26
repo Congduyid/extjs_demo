@@ -266,7 +266,6 @@
         // render the grid to the specified div in the page
         //grid.render('grid-example');
         grid.render('dulieutab1');
-    });
 
     
 
@@ -277,7 +276,6 @@
      * licensing@sencha.com
      * http://www.sencha.com/license
      */
-    Ext.onReady(function () {
       var win;
       //id cái nút Tab ne
       var button = Ext.get('ext-gen6');
@@ -304,11 +302,9 @@
         }
         win.show(this);
       });
-    });
 
 
 
-Ext.onReady(function(){
   Ext.QuickTips.init();
  
      // turn on validation errors beside the field globally
@@ -321,11 +317,12 @@ Ext.onReady(function(){
          title: 'Tạo khách',
          width: 250,
          defaultType: 'textfield',
+
  
          items: [
-           { id: 'name', fieldLabel: 'Tên', name: 'name' },
-           { id: 'password',inputType: 'password', fieldLabel: 'Mật khẩu', name: 'password' },
-           { id: 'password_confirmation',inputType: 'password', fieldLabel: 'Xác nhận mật khẩu', name: 'password_confirmation' },
+           { id: 'name', fieldLabel: 'Tên'},
+           { id: 'password',inputType: 'password', fieldLabel: 'Mật khẩu'},
+           { id: 'password_confirmation',inputType: 'password', fieldLabel: 'Xác nhận mật khẩu' },
          ],
  
          buttons: [

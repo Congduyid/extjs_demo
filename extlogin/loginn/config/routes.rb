@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
   delete 'users/delete_user'
   delete 'khaches/delete_khach'
+  patch 'khaches/cap_nhat'
 
   resources :khaches
   resources :users

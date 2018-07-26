@@ -23,6 +23,14 @@ class KhachesController < ApplicationController
     end
   end
 
+  def cap_nhat
+    @khach = Khach.find(params[:khach_id])
+    @khach = @khach.update(khach_params)
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
   # GET /khaches/new
   def new
     @khach = Khach.new
