@@ -1,3 +1,4 @@
 # extjs_demo
-/khaches
-/users
+
+# /khaches
+# /users
