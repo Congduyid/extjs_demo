@@ -145,7 +145,10 @@
           text:'Sửa',
             tooltip:'Sửa', 
              handler: function () { 
+               Ext.getCmp('capnhat').enable();
+
               var s = grid.getSelectionModel().getSelected();
+              
               edit_id = s.get('id');
               edit_ten = s.get('ten');
               edit_tuoi = s.get('tuoi');
@@ -208,14 +211,15 @@
           listeners: {
           specialkey: function(field, e){
             if (e.getKey() == e.ENTER) {
-                store.filter([
+               store.filter([
                 {
-                  property: 'name',
+                  property: 'ten',
                   value: Ext.getCmp('tukhoa').getValue(),
                   // exactMatch: true,
                   // caseSensitive: true
                 }
               ]).load(); 
+              //store.load();
               
             }
           }
@@ -325,7 +329,9 @@
               id: 'capnhat',
               
                 text: 'Cập nhật',
+                disabled:true,
                 handler: function () { 
+                  Ext.getCmp('capnhat').disable();
                   if (edit_id==null){
                    Ext.Msg.alert('Thông báo','Chưa chọn khách cần sửa');
                   }
